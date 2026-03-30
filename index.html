@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JONABDAM TRAVELS</title>
+    <script>
+      // Mitigate common environment/extension conflicts in the preview iframe
+      (function() {
+        try {
+          // Handle ethereum injection conflicts (often from MetaMask)
+          // If it's already defined as a getter, we try to make it configurable
+          // or at least catch the error if something tries to set it.
+          const descriptor = Object.getOwnPropertyDescriptor(window, 'ethereum');
+          if (descriptor && !descriptor.configurable) {
+            // If it's not configurable, we can't do much, but we can try to 
+            // prevent some injection scripts from crashing by defining it early.
+          } else if (!descriptor) {
+            Object.defineProperty(window, 'ethereum', {
+              value: undefined,
+              writable: true,
+              configurable: true
+            });
+          }
+        } catch (e) {
+          console.debug('Ethereum proxy mitigation skipped:', e.message);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
